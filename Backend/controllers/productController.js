@@ -30,17 +30,14 @@ const getProduct = asyncHandler(async (req, res) => {
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
-        const product = await Product.create(req.body)
+        console.log("req.body:", req.body);
+        const product = await Product.create(req.body);
         res.status(201).json(product);
-
     } catch (error) {
-        res.status(500);
-        throw new Error(error.message);
+        console.error("CREATE ERROR:", error.message); 
+        res.status(500).json({ message: error.message }); 
     }
-    console.log(req.body);
-    res.send(req.body);
 });
-
 //Edit a post
 
 const updateProduct = asyncHandler(async (req, res) => {

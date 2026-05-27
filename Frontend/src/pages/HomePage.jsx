@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Product from '../components/porduct.jsx';
+import Loading from '../components/loading.jsx';
 
-const HomePage = () => {
+const HomePage = ({ query }) => {
 
 
 
@@ -25,24 +27,33 @@ const HomePage = () => {
         getProducts();
     }, []);
 
+    const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+);
+
 //show data from backend
     return (
         <div>
-            <div>
+
+            <div className='min-w-screen bg-gray-50 min-h-screen'>
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <div className="flex items-center justify-center min-h-[60vh]">
+                        <Loading />
+                    </div>
                 ) : (
                     <>
-                        {products.length > 0 ? (
+                        {filteredProducts.length > 0 ? (
                             <>
-                                {products.map((product, index) => (
-                                    <div key={index}>
-                                        <h3>{product.name}</h3>
-                                        <p>{product.description}</p>
-                                    </div>
-                                ))}
+                            
+                            {
+                                filteredProducts.map((product, index) => {
+                                    return (
+                                       <Product key={product._id} product={product} />
+                                    )
+                                })
+                            }
                             </>
-                        ) : null}
+                        ) : <p className="text-center text-gray-500 mt-10">No result found.</p>}
                     </>
                 )}
             </div>

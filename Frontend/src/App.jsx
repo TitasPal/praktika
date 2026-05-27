@@ -6,20 +6,29 @@ import HomePage from './pages/HomePage.jsx'
 import CreatePost from './pages/CreatePost.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import AdminPage from './pages/AdminPage.jsx'
+import RegisterPage from './pages/RegisterPage.jsx'
+
+
 
 function App() {
+
+  const [query, setQuery] = useState("")
   return (
-    <>
-        <Navbar />
-    <div>
+      <BrowserRouter>
+      <Navbar query={query} setQuery={setQuery} />
+          <div>
         <Routes>
-          <Route index element={<HomePage/>} />
+          <Route index element={<HomePage query={query} classname="bg-white"/>} />
           <Route path="/post" element={<CreatePost/>} />
-          <Route path="/login" element={<LoginPage/>} />
           <Route path="/admin" element={<AdminPage/>} />
+          <Route path="/register" element={<RegisterPage/>} />
+          <Route path="/edit/:id" element={<CreatePost/>} />
+          <Route path="/delete/:id" element={<AdminPage/>} />
+          <Route path="/users" element={<AdminPage/>} />
+          <Route path="/login"element={<LoginPage/>} />
         </Routes>
     </div>
-    </>
+    </BrowserRouter>
   )
 }
 
