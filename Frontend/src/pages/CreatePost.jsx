@@ -10,6 +10,7 @@ const CreatePost = () => {
     const [category, setCategory] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const saveProduct = async (e) => {
         e.preventDefault();
@@ -20,7 +21,7 @@ const CreatePost = () => {
         try {
             setIsLoading(true);
             const response = await axios.post("http://localhost:3000/api/products", {
-                name, price: Number(price), description, image, category
+                name, price: Number(price), description, image, category, createdBy: user._id
             });
             alert(`Saved "${response.data.name}" successfully!`);
             setIsLoading(false);
@@ -31,6 +32,8 @@ const CreatePost = () => {
         }
     };
 
+
+
     const fields = [
         { label: "Title", value: name, setter: setName, type: "text", placeholder: "e.g. Blue Denim Jacket" },
         { label: "Price (€)", value: price, setter: setPrice, type: "number", placeholder: "0.00" },
@@ -40,18 +43,18 @@ const CreatePost = () => {
     ];
 
     return (
-<div className="bg-gray-50 flex items-center justify-center px-4 overflow-y-auto">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 w-full max-w-lg p-8">
+        <div className="flex items-center justify-center px-4 overflow-y-auto">
+            <div className="rounded-2xl bg-gray-100 w-full max-w-lg p-3 mt-2">
 
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-1">List an item</h1>
+                    <h1 className="text-2xl font-bold text-black mb-1">List an item</h1>
                     <p className="text-gray-400 text-sm">Fill in the details to list your item for sale</p>
                 </div>
 
                 <form onSubmit={saveProduct} className="flex flex-col gap-5">
                     {fields.map(({ label, value, setter, type, placeholder }) => (
                         <div key={label} className="flex flex-col gap-1.5">
-                            <label className="text-sm font-semibold text-gray-700">{label}</label>
+                            <label className="text-sm font-semibold text-black">{label}</label>
                             <input
                                 type={type}
                                 value={value}
@@ -65,7 +68,7 @@ const CreatePost = () => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="mt-2 bg-teal-500 hover:bg-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl text-sm tracking-wide transition-colors cursor-pointer"
+                        className="mt-2 bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl text-sm tracking-wide transition-colors cursor-pointer"
                     >
                         {isLoading ? "Saving..." : "List item"}
                     </button>

@@ -1,22 +1,36 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-const  Product = ({product}) => {
-    return (
-       <div className="card bg-base-100 w-60 shadow-sm border border-gray-500 mt-10">
-        <Link to={`/delete/${product._id}`} className="btn btn-sm btn-error absolute top-2 left-2">Delete</Link>
-  <figure>
-    <img
-      src={product.image}
-      alt={product.name} />
-  </figure>
-  <div className="card-body">
-    <h2 className="card-title">{product.name}</h2>
-    <p>{product.description}</p>
-    <h1>${product.price.toFixed(2)}</h1>
-    <div className="card-actions justify-end">
-      <button className="btn btn-primary">Buy Now</button>
+import { Link, useNavigate } from 'react-router-dom'
+import axios from "axios"
+
+const Product = ({ product }) => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3000/api/products/${product._id}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <div className="card w-full border-gray-500">
+      <div className="card-body bg-white text-black rounded-xl">
+        <figure>
+          <img src={product.image} alt={product.name} />
+        </figure>
+        <h2 className="card-title">{product.name}</h2>
+        <p>{product.description}</p>
+        <h1>${product.price.toFixed(2)}</h1>
+        <div className="card-actions justify-end">
+          {user && user._id === product.createdBy && (<button className='bg-cyan-600 rounded-sm h-10 w-20 text-center text-white hover:bg-cyan-700 mr-2'><Link to={`/edit/${product._id}`}>edit</Link></button>)}
+          {user && user._id === product.createdBy && (<button onClick={handleDelete} className='bg-red-500 rounded-sm h-10 w-20 text-center text-white hover:bg-red-600'>Delete</button>)}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-    )
-}   
+  )
+}
+
 export default Product

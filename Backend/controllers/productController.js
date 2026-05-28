@@ -23,7 +23,7 @@ const getProduct = asyncHandler(async (req, res) => {
     } catch (error) {
         res.status(500);
         throw new Error(error.message);
-    }
+    }5334
 });
 
 //make a post

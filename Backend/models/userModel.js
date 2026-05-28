@@ -6,9 +6,7 @@ const userSchema = new mongoose.Schema(
         email: { type: String, required: [true, "Please enter an email"] },
         password: { type: String, required: [true, "Please enter a password"] },
     },
-    {
-        timestamps: true,
-    }
+    {timestamps: true,}
 )
 
 const User = mongoose.model('User', userSchema);

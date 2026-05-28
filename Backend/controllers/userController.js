@@ -68,7 +68,7 @@ const deleteUser = asyncHandler(async (req, res) => {
                     res.status(404);
         throw new Error('User not found');
         }
-        res.status(200).json(user);
+        res.status(200).json();
     } catch (error) {
         res.status(500);
         throw new Error(error.message);
@@ -97,6 +97,7 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new Error(error.message);
     }
 });
+
 
 
 module.exports = {

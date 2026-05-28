@@ -1,5 +1,6 @@
 export default function Loading() {
-    return (
-<span className="loading loading-dots loading-xl"></span>
+    return (<div>
+        <span className="loading loading-bars loading-xl"></span>
+    </div>
     );
 }

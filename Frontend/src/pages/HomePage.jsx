@@ -28,36 +28,28 @@ const HomePage = ({ query }) => {
     }, []);
 
     const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(query.toLowerCase())
-);
+        product.name.toLowerCase().includes(query.toLowerCase())
+    );
 
-//show data from backend
+    //show data from backend
     return (
-        <div>
+        <div className="bg-gray-50 min-h-screen p-6">
+            {isLoading ? (
+                <div className="flex items-center justify-center min-h-[60vh]">
+                    <Loading />
+                </div>
+            ) : filteredProducts.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    {filteredProducts.map((product) => (
+                        <Product key={product._id} product={product} />
+                    ))}
+                </div>
+            ) : (
+                <p className="text-center text-gray-500 mt-10">No result found.</p>
+            )}
 
-            <div className='min-w-screen bg-gray-50 min-h-screen'>
-                {isLoading ? (
-                    <div className="flex items-center justify-center min-h-[60vh]">
-                        <Loading />
-                    </div>
-                ) : (
-                    <>
-                        {filteredProducts.length > 0 ? (
-                            <>
-                            
-                            {
-                                filteredProducts.map((product, index) => {
-                                    return (
-                                       <Product key={product._id} product={product} />
-                                    )
-                                })
-                            }
-                            </>
-                        ) : <p className="text-center text-gray-500 mt-10">No result found.</p>}
-                    </>
-                )}
-            </div>
         </div>
+
     );
 }
 export default HomePage
